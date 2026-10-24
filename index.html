@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VidCash - Global Web3 Mining & Payout Terminal</title>
+    <style>
+        :root {
+            --bg-color: #030712;
+            --card-bg: #0b0f19;
+            --border-color: #1e293b;
+            --accent-green: #10b981;
+            --accent-glow: rgba(16, 185, 129, 0.25);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+        }
+
+        .terminal-card {
+            width: 100%;
+            max-width: 460px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 30px var(--accent-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .terminal-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-green), transparent);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 38px;
+            height: 38px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--accent-green);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent-green);
+            font-size: 20px;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+
+        .pulse-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-green);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .hero-banner {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 13px;
+        }
+
+        .stat-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+        }
+
+        .stat-val {
+            font-weight: 700;
+            color: #f1f5f9;
+        }
+
+        .highlight-val {
+            color: var(--accent-green);
+        }
+
+        .download-btn {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            text-decoration: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6);
+        }
+
+        .gateways-section {
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+
+        .gateways-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .gateways-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .gateway-card {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 6px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            transition: border-color 0.2s;
+        }
+
+        .gateway-card:hover {
+            border-color: var(--accent-green);
+        }
+
+        .gateway-card svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .gateway-name {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal-card">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <div class="brand-icon">⚡</div>
+                <div class="brand-name">VidCash</div>
+            </div>
+            <div class="status-badge">
+                <span class="pulse-dot"></span> Node Active
+            </div>
+        </div>
+
+        <!-- Stats / Details Banner -->
+        <div class="hero-banner">
+            <div class="stat-row">
+                <span class="stat-label">Daily Earning Limit</span>
+                <span class="stat-val highlight-val">$10.00 / 40 Tasks</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Minimum Payout</span>
+                <span class="stat-val">$300.00</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">Active Period</span>
+                <span class="stat-val">30 Active Days</span>
+            </div>
+            <div class="stat-row">
+                <span class="stat-label">System Slot</span>
+                <span class="stat-val" style="color: #f43f5e;">Secure / Limited</span>
+            </div>
+        </div>
+
+        <!-- Download Action -->
+        <a href="VidCash.apk" download="VidCash.apk" class="download-btn">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Download Secure APK
+        </a>
+
+        <!-- Gateways with Logos -->
+        <div class="gateways-section">
+            <div class="gateways-title">Verified Payout Gateways</div>
+            <div class="gateways-grid">
+                <!-- PayPal -->
+                <div class="gateway-card">
+                    <svg viewBox="0 0 24 24" fill="#003087"><path d="M7.076 21.338H3.12a.828.828 0 0 1-.82-.9l2.062-13.4a.827.827 0 0 1 .82-.7h3.957c2.26 0 3.73.53 4.364 1.57.545.89.57 2.05.074 3.45-.63 1.77-1.93 2.92-3.86 3.44l-.65.18-.89 5.75a.828.828 0 0 1-.82.69z"/><path d="M10.82 14.548c1.69 0 2.89-.4 3.56-1.19.57-.66.75-1.57.54-2.73-.39-2.18-2.04-3.32-4.91-3.32H8.38l-1.07 6.91h2.24l1.27-.67z" fill="#0079C1"/><path d="M16.51 8.848c-.53-.78-1.39-1.29-2.61-1.53-.45-.09-.94-.14-1.46-.16h-3.4l-.87 5.61h2.47c1.55 0 2.7-.35 3.41-1.03.62-.59.9-1.44.46-2.89z" fill="#00457C"/></svg>
+                    <span class="gateway-name">PayPal</span>
+                </div>
+                <!-- Crypto / USDT -->
+                <div class="gateway-card">
+                    <svg viewBox="0 0 24 24" fill="#26A17B"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1.69 13.9v2.12h-3.38V15.9h-2.1v-2.08h2.1V11.3H8.3v-2.08h2.08V7.1h3.38v2.12h2.1v2.08h-2.1v2.52h2.1v2.08z"/></svg>
+                    <span class="gateway-name">Crypto</span>
+                </div>
+                <!-- Western Union -->
+                <div class="gateway-card">
+                    <svg viewBox="0 0 24 24" fill="#FFC800"><path d="M19.5 4h-15C3.67 4 3 4.67 3 5.5v13c0 .83.67 1.5 1.5 1.5h15c.83 0 1.5-.67 1.5-1.5v-13c0-.83-.67-1.5-1.5-1.5zm-8.25 10.5h-1.5V9.5h1.5v5zm3.75 0h-1.5V9.5h1.5v5zm3.75 0h-1.5V9.5h1.5v5z"/></svg>
+                    <span class="gateway-name">W. Union</span>
+                </div>
+                <!-- Bank Wire -->
+                <div class="gateway-card">
+                    <svg viewBox="0 0 24 24" fill="#3B82F6"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    <span class="gateway-name">Bank Wire</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
